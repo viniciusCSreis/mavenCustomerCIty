@@ -1,9 +1,11 @@
 package br.zup.customerClient;
 
+import java.util.ArrayList;
+
 public interface ICityControler {
 
     City findOne(int id);
-    City findAll();
+    ArrayList<City> findAll();
     City findByName(String name);
 
 }

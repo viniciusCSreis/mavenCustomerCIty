@@ -1,6 +1,5 @@
 package br.zup.customerClient;
 
-import net.bytebuddy.implementation.bytecode.Throw;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -25,14 +24,16 @@ class CustomerControlerTest {
     @Test
     public void canSaveACity(){
         String cityName = "uberlândia";
+        String customerName = "vinicius";
         City uberlandia = new City(100,cityName);
-
+        int size = customerControler.getCustomers().size();
         when(iCityControler.findByName(cityName)).thenReturn(uberlandia);
 
-        Customer customer = customerControler.save("vinicius",cityName);
+        Customer customer = customerControler.save(customerName,cityName);
 
         assertEquals(customer.getCityId(),100);
-        assertTrue(customerControler.getCustomers().size() > 0);
+        assertEquals(customer.getName(),customerName);
+        assertEquals( size+1,customerControler.getCustomers().size());
         assertTrue(customerControler.getCustomers().indexOf(customer) != -1);
 
         verify(iCityControler,atLeast(1)).findByName(cityName);
@@ -44,7 +45,7 @@ class CustomerControlerTest {
         when(iCityControler.findByName(cityName)).thenReturn(null);
         Customer customer = customerControler.save("vinicius",cityName);
 
-        assertEquals(customer,null);
+        assertNull(customer);
 
         verify(iCityControler,atLeast(1)).findByName(cityName);
 
@@ -57,17 +58,17 @@ class CustomerControlerTest {
 
         Customer customer = customerControler.save("",cityName);
 
-        assertEquals(customer,null);
+        assertNull(customer);
     }
     @Test
-    public void SavaACustomerWithWrong(){
+    public void SavaACustomerWithWrongCityname(){
 
         String cityName = "uberlândia";
         when(iCityControler.findByName(cityName)).thenReturn(null);
 
         Customer customer = customerControler.save("",cityName);
 
-        assertEquals(customer,null);
+        assertNull(customer);
     }
 
 

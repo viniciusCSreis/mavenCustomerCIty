@@ -17,7 +17,7 @@ public class CustomerControler implements ICustomerControler {
         if(city == null)
             return null;
         long cityId = city.getId();
-        Customer customer = new Customer(1,nameCity,cityId);
+        Customer customer = new Customer(1,nameCliente,cityId);
         CustomerDao.add(customer);
         return customer;
     }
